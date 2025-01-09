@@ -1,0 +1,69 @@
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #DFFFFD;
+  color: white;
+}
+.nav-logo{
+  text-align: center;
+  margin-top: 20px;
+}
+.nav-logo img{
+  width: 400px;
+  height: 200px;
+}
+.nav-menu{
+  display: flex;
+  align-items: center;
+  list-style: none;
+  gap: 50px;
+  color: black;
+  font-size: 20px;
+  font-weight:500;
+  margin-left: 720px;
+}
+.nav-menu ul{
+  display: flex;
+  color:black;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap:3px;
+  cursor:pointer;
+ 
+}
+.nav-menu hr{
+  border:none;
+  width: 80%;
+  height: 3px;
+  border-radius:10px;
+  background: #2D8984;
+}
+.nav-login li{
+  display: flex;
+  color:black;
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-size:20px;
+  font-weight:700;
+  gap:3px;
+  cursor:pointer;
+  text-decoration: underline;
+}
+.nav-signup button{
+  width: 157px;
+  height: 58px;
+  outline: none;
+  border: 1px solid #2D8984;
+  border-radius: 25px;
+  color: white;
+  font-size:20px;
+  font-weight:500;
+  background: #2D8984;
+  cursor:pointer;
+}
+.nav-signup button:active{
+  background: white;
+  color: #2D8984;
+}
