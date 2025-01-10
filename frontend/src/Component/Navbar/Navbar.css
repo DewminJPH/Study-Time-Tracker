@@ -22,7 +22,7 @@
   color: black;
   font-size: 20px;
   font-weight:500;
-  margin-left: 720px;
+  margin-left: 620px;
 }
 .nav-menu ul{
   display: flex;
@@ -41,22 +41,37 @@
   border-radius:10px;
   background: #2D8984;
 }
-.nav-login li{
-  display: flex;
-  color:black;
-  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-  font-size:20px;
-  font-weight:700;
-  gap:3px;
-  cursor:pointer;
-  text-decoration: underline;
+.nav-buttons{
+  display:flex;
+  gap:5px;
+}
+.nav-login button{
+  width: 137px;
+  height: 58px;
+  background: white;
+  border-radius: 225px;
+  border: 1px solid #2D8984;
+  color: black;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+}
+.nav-login button:hover{
+  width: 137px;
+  height: 58px;
+  background: #2D8984;
+  color: white;
+  border: 1px solid #2D8984;
+  border-radius: 225px;
+  padding: 10px 20px;
 }
 .nav-signup button{
-  width: 157px;
+  width: 137px;
   height: 58px;
   outline: none;
   border: 1px solid #2D8984;
-  border-radius: 25px;
+  border-radius: 225px;
   color: white;
   font-size:20px;
   font-weight:500;
@@ -66,4 +81,36 @@
 .nav-signup button:active{
   background: white;
   color: #2D8984;
+}
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-left: 0;
+  }
+
+  .nav-logo {
+    margin-top: 10px;
+  }
+
+  .nav-signup button,
+  .nav-login button {
+    width: 100%;
+    max-width: none;
+  }
+}
+@media (max-width: 480px) {
+  .nav-menu {
+    font-size: 16px;
+  }
+
+  .nav-logo img {
+    max-width: 300px;
+  }
 }

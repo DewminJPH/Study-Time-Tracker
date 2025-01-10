@@ -12,13 +12,13 @@ export const Navbar = () => {
           <li>Features</li>
           <li>How it works</li>
         </ul>
-        <div className="nav-login">
-          <ul>
-            <li>Login</li>
-          </ul>
-        </div>
-        <div className="nav-signup">
-          <button>Sign Up</button>
+        <div className="nav-buttons">
+          <div className="nav-login">
+            <button>Login</button>
+          </div>
+          <div className="nav-signup">
+            <button>Sign Up</button>
+          </div>
         </div>
       </div>
       <div className="nav-logo">
