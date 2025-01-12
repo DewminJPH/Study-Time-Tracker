@@ -1,16 +1,17 @@
-import React from 'react'
+import React,{useState} from 'react'
 import './Navbar.css'
 import logo from '../Assest/Logo.jpg'
 
 export const Navbar = () => {
+    const[menu,setMenu] = useState("home")
   return (
     <>
       <div className="navbar">
         <ul className="nav-menu">
-          <li>Home <hr/></li>
-          <li>About</li>
-          <li>Features</li>
-          <li>How it works</li>
+          <li onClick={()=>{setMenu("home")}}>Home{menu==="home"?<hr/>:<></>}</li>
+          <li onClick={()=>{setMenu("about")}}>About{menu==="about"?<hr/>:<></>}</li>
+          <li onClick={()=>{setMenu("features")}}>Features{menu==="features"?<hr/>:<></>}</li>
+          <li onClick={()=>{setMenu("works")}}>How it works{menu==="works"?<hr/>:<></>}</li>
         </ul>
         <div className="nav-buttons">
           <div className="nav-login">
