@@ -1,0 +1,90 @@
+.hero{
+  height:100vh;
+  background:#DFFFFD;
+  display:flex;
+  position:relative;
+  overflow:hidden;
+}
+.hero-left{
+  position:relative;
+}
+.hero-left h2{
+  font-size: 30px;
+  margin-top: 150px;
+  margin-left: 100px;
+  color:#2D8984;
+  position:relative;
+  z-index:1;
+}
+.hero-left h2::before {
+  content: "";
+  display: block;
+  width: 4px; /* Adjust the width as needed */
+  height: 45px; /* Adjust the height as needed */
+  background-color: #2D8984; /* Adjust the color as needed */
+  position: absolute;
+  left: -20px; /* Adjust the position as needed */
+  top: 5%; /* Center the line vertically */
+  transform: translateY(0%);
+}
+.hero-left h2:first-of-type {
+  margin-bottom: 6px; /* Adjust this value to reduce the gap */
+}
+
+.hero-left h2:last-of-type {
+  margin-top: 0; /* Ensure no extra margin at the top of the second h2 */
+}
+.hero-left h4{
+  font-size:20px;
+  font-weight: 250;
+  margin-left: 100px;
+  position:relative;
+  z-index:1;
+}
+.hero-left h4:first-of-type {
+  margin-bottom: 6px; /* Adjust this value to reduce the gap */
+}
+
+.hero-left h4:last-of-type {
+  margin-top: 0; /* Ensure no extra margin at the top of the second h2 */
+}
+.image-1{
+  width:500px;
+  height:auto;
+  margin-left:360px;
+  margin-top: 10px;
+}
+.image-2{
+  width: 850px;
+  height:auto;
+  margin-left:-150px;
+  margin-top:-60px;
+}
+.circle {
+  width: 600px; 
+  height: 600px; 
+  background-color: #afeeea;
+  border-radius: 50%;
+  display: inline-block;
+  margin-top: -400px; 
+  position:absolute;
+  left:-150px;
+  z-index:0;
+}
+.hero-button {
+  position: absolute;
+  bottom: 60px; /* Adjust the position as needed */
+  left: 40%;
+  transform: translateX(-50%);
+  background-color: white;
+  color: #2a8884;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 25px;
+  text-align: center;
+  z-index: 1; /* Ensure the button is above other elements */
+  border: 1px solid black;
+  box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}

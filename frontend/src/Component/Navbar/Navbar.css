@@ -5,6 +5,7 @@
   padding: 10px;
   background-color: #DFFFFD;
   color: white;
+  box-shadow: 0 1px 3px -2px black;
 }
 .nav-logo{
   text-align: center;
@@ -24,6 +25,15 @@
   font-weight:250;
   margin-left: 620px;
 }
+.nav-menu li a {
+  color: black;
+  text-decoration: none;
+}
+
+.nav-menu li a.active {
+  color: black; 
+}
+
 .nav-menu ul{
   display: flex;
   color:black;

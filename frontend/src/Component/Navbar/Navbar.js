@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import './Navbar.css'
-import logo from '../Assest/Logo.jpg'
+import { Link } from 'react-router-dom'
 
 export const Navbar = () => {
     const[menu,setMenu] = useState("home")
@@ -8,22 +8,19 @@ export const Navbar = () => {
     <>
       <div className="navbar">
         <ul className="nav-menu">
-          <li onClick={()=>{setMenu("home")}}>Home{menu==="home"?<hr/>:<></>}</li>
-          <li onClick={()=>{setMenu("about")}}>About{menu==="about"?<hr/>:<></>}</li>
-          <li onClick={()=>{setMenu("features")}}>Features{menu==="features"?<hr/>:<></>}</li>
-          <li onClick={()=>{setMenu("works")}}>How it works{menu==="works"?<hr/>:<></>}</li>
+          <li onClick={()=>{setMenu("home")}}><Link className={menu === "home" ? 'active' : ''} style={{textDecoration:'none'}}to='/'>Home</Link>{menu==="home"?<hr/>:<></>}</li>
+          <li onClick={()=>{setMenu("about")}}><Link className={menu === "about" ? 'active' : ''} style={{textDecoration:'none'}}to='/about'>About</Link>{menu==="about"?<hr/>:<></>}</li>
+          <li onClick={()=>{setMenu("features")}}><Link className={menu === "features" ? 'active' : ''} style={{textDecoration:'none'}}to='/features'>Features</Link>{menu==="features"?<hr/>:<></>}</li>
+          <li onClick={()=>{setMenu("works")}}><Link className={menu === "works" ? 'active' : ''} style={{textDecoration:'none'}}to='/howitworks'>How it works</Link>{menu==="works"?<hr/>:<></>}</li>
         </ul>
         <div className="nav-buttons">
           <div className="nav-login">
-            <button>Login</button>
+            <Link to='/login'><button>Login</button></Link>
           </div>
           <div className="nav-signup">
-            <button>Sign Up</button>
+            <Link to='/signup'><button>Sign Up</button></Link>
           </div>
         </div>
-      </div>
-      <div className="nav-logo">
-        <img src={logo} alt="Logo" />
       </div>
     </>
   );
