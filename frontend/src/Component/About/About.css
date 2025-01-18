@@ -11,10 +11,7 @@
   margin-left: 60px;
   margin-top: 40px;
   margin-bottom: 40px;
-}
-
-.about-image img {
-  max-width: 50%; 
+  max-width: 30%; 
   height: auto;
 }
 
@@ -22,6 +19,8 @@
   flex: 1;
   padding: 20px;
   text-align: justify;
+  margin-left:50px;
+  margin-right:100px;
 }
 
 .about-text h1 {

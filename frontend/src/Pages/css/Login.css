@@ -1,0 +1,16 @@
+.login{
+  width:100px;
+  height: 80vh;
+  background: #fce3fe;
+  padding-top: 100px;
+}
+.login-container{
+  width: 580px;
+  height: 600px;
+  background: white;
+  margin: auto;
+  padding: 40px 60px;
+}
+.login-container h4{
+  margin: 20px 0px;
+}
