@@ -1,0 +1,36 @@
+.how-it-works {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  background-color: #ffffff;
+}
+
+.how-it-works-content {
+  flex: 1;
+  padding-right: 20px;
+}
+
+.how-it-works-content h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  margin-left: 130px;
+}
+
+.how-it-works-content p {
+  font-size: 1rem;
+  text-align: justify;
+  margin-left: 130px;
+}
+
+.how-it-works-image-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.how-it-works-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}

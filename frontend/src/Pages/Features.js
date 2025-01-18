@@ -1,8 +1,9 @@
 import React from 'react'
+import FeaturesContent from '../component/Features/Features';
 const Features = () => {
     return (
         <div>
-            <h1>Features</h1>
+            <FeaturesContent/>
         </div>
     )
 }

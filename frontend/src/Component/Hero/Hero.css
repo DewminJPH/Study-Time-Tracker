@@ -20,11 +20,11 @@
   content: "";
   display: block;
   width: 4px; /* Adjust the width as needed */
-  height: 45px; /* Adjust the height as needed */
+  height: 51px; /* Adjust the height as needed */
   background-color: #2D8984; /* Adjust the color as needed */
   position: absolute;
   left: -20px; /* Adjust the position as needed */
-  top: 5%; /* Center the line vertically */
+  top: 3%; /* Center the line vertically */
   transform: translateY(0%);
 }
 .hero-left h2:first-of-type {

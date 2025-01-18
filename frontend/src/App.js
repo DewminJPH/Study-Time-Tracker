@@ -5,8 +5,9 @@ import Home from './Pages/Home'
 import Login from './Pages/Login'
 import Signup from './Pages/Signup'
 import About from './Pages/About'
-import Features from './Pages/Features'
+import Features from './Pages/Features';
 import Howitworks from './Pages/Howitworks';
+
 function App() {
   return (
     <>

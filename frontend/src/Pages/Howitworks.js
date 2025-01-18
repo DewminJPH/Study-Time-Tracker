@@ -1,8 +1,9 @@
 import React from 'react'
+import Works from '../component/How_it_works/How_it_works';
 const Howitworks = () => {
     return (
         <div>
-            <h1>Howitworks</h1>
+            <Works/>
         </div>
     )
 }
