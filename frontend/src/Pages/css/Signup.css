@@ -91,7 +91,7 @@
   padding: 10px;
   margin-top: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  
 }
 
 .signup-button {
@@ -109,5 +109,29 @@
 .signup-button:hover {
   background-color: #1A5A5A;
 }
+.password-container {
+  display: flex;
+  align-items: center;
+  position: relative; 
+}
 
+.input-field {
+  flex: 1;
+  padding-right: 40px; 
+}
 
+.toggle-password-icon {
+  position: absolute;
+  right: 10px; 
+  top: 60%; 
+  transform: translateY(-50%); 
+  cursor: pointer;
+  width: 17px; 
+  height: 17px; 
+  opacity: 0.8; 
+  transition: opacity 0.2s ease-in-out; 
+}
+
+.toggle-password-icon:hover {
+  opacity: 1; 
+}

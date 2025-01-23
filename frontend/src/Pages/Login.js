@@ -3,6 +3,8 @@ import '../Pages/css/Login.css';
 import loginimg from '../component/Assest/Login image.png'
 import logo from '../component/Assest/Logo.png';
 import {Link} from 'react-router-dom'
+import eyeOpen from '../component/Assest/icons/eye-regular.svg';
+import eyeClosed from '../component/Assest/icons/eye-slash-regular.svg';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -24,22 +26,24 @@ const Login = () => {
                 <h4 className="welcome-text">Welcome Back!</h4>
             </div>
             <div className="form-container">
-                <form className="login-form">
+                <form action="#" method="post" className="login-form">
                     <h2 className="form-title">LOGIN</h2>
-                    <input type="text" placeholder="Username" className="input-field" />
+                    <div class="login box">
+                      <input class="field" type="text" id="login" required/>
+                      <label for="login">Username</label>
+                    </div>
                     <div className="password-container">
                         <input
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Password"
+                            type={showPassword ? "text" : "password"} 
                             className="input-field"
                         />
-                        <button
-                            type="button"
-                            className="toggle-password"
-                            onClick={togglePasswordVisibility}
-                        >
-                            {showPassword ? "Hide" : "Show"}
-                        </button>
+                        <img
+                          src={showPassword ? eyeOpen : eyeClosed}
+                          alt={showPassword ? "Hide password" : "Show password"}
+                          className="toggle-password-icon"
+                          onClick={togglePasswordVisibility}
+                          style={{ cursor: "pointer", width: "24px", marginLeft: "8px" }}
+                        />
                     </div>
                     <button type="submit" className="login-button">Login</button>
                     <div className="signup-text">Don't you have an account? <Link to="/signup" className="signup-link">Sign up</Link> here
