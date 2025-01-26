@@ -1,13 +1,17 @@
 import React,{useState} from 'react';
+import {BrowserRouter,Routes,Route, Link} from 'react-router-dom';
 import '../Pages/css/Login.css';
 import loginimg from '../component/Assest/Login image.png'
 import logo from '../component/Assest/Logo.png';
-import {Link} from 'react-router-dom'
 import eyeOpen from '../component/Assest/icons/eye-regular.svg';
 import eyeClosed from '../component/Assest/icons/eye-slash-regular.svg';
 
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
+
+    const BtnClick = async () => {
+      window.location.href='/dashboard';
+    }
 
     const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -45,7 +49,7 @@ const Login = () => {
                           style={{ cursor: "pointer", width: "24px", marginLeft: "8px" }}
                         />
                     </div>
-                    <button type="submit" className="login-button">Login</button>
+                    <button type="submit" className="login-button" onClick={BtnClick} >Login</button>
                     <div className="signup-text">Don't you have an account? <Link to="/signup" className="signup-link">Sign up</Link> here
                     </div>
                 </form>
