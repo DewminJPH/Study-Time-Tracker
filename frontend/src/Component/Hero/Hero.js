@@ -15,7 +15,7 @@ const Hero = () => {
     return (
         <div className='hero' >
             <div className='hero-left'>
-                <img src={logo} alt='logo' className='image-1' />
+                <img src={logo} alt='logo' className='imagel' />
                 <h2>Master Your Study Time,</h2>
                 <h2>One Session at a Time</h2>
                 <h4>Track, analyze and improve your study</h4>

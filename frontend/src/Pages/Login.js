@@ -1,5 +1,5 @@
 import React,{useState} from 'react';
-import {BrowserRouter,Routes,Route, Link} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import '../Pages/css/Login.css';
 import loginimg from '../component/Assest/Login image.png'
 import logo from '../component/Assest/Logo.png';

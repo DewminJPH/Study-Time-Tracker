@@ -28,7 +28,7 @@
   transform: translateY(0%);
 }
 .hero-left h2:first-of-type {
-  margin-bottom: 6px; /* Adjust this value to reduce the gap */
+  margin-bottom: 3px; /* Adjust this value to reduce the gap */
 }
 
 .hero-left h2:last-of-type {
@@ -48,11 +48,12 @@
 .hero-left h4:last-of-type {
   margin-top: 0; /* Ensure no extra margin at the top of the second h2 */
 }
-.image-1{
+.imagel{
   width:500px;
   height:auto;
   margin-left:360px;
   margin-top: 10px;
+  z-index: 1;
 }
 .image-2{
   width: 850px;
@@ -66,7 +67,7 @@
   background-color: #afeeea;
   border-radius: 50%;
   display: inline-block;
-  margin-top: -400px; 
+  margin-top: -300px; 
   position:absolute;
   left:-150px;
   z-index:0;
