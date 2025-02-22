@@ -3,29 +3,24 @@ import "../Pages/css/Dashboard.css";
 import logo from "../component/Assest/Logo.png";
 
 const Dashboard = () => {
-  const [time, setTime] = useState(new Date().toLocaleTimeString([],{hour:"2-digit", minute:"2-digit"}));
-  const [date, setDate] = useState(new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric"}));
+  const [time, setTime] = useState(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+  const [date, setDate] = useState(new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }));
   const [greeting, setGreeting] = useState("Good Evening");
-  const [tasks,setTasks] = useState([]);
+  const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
-  const [subject,setSubject]= useState("")
-  const [taskType,setTaskType]= useState("")
-  const [taskDate,setTaskDate]= useState("")
-  const [taskTime,setTaskTime] = useState("")
-  const [showSubjectDropdown, setShowSubjectDropdown] = useState(false);
-  const [showTypeDropdown, setShowTypeDropdown] = useState(false);
-  const [showDatePicker, setShowDatePicker] = useState(false);
-  const [showTimePicker, setShowTimePicker] = useState(false);
-  const [focusTime, setFocusTime] = useState(1500); 
-  const [isActive, setIsActive] = useState(false); 
+  const [focusTime, setFocusTime] = useState(1500);
+  const [isActive, setIsActive] = useState(false);
+  const [activeButton, setActiveButton] = useState(null); 
+  const [selectedSubject, setSelectedSubject] = useState(""); 
+  const [selectedType, setSelectedType] = useState(""); 
+  const [selectedDate, setSelectedDate] = useState(""); 
+  const [selectedTime, setSelectedTime] = useState(""); 
 
-  
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date();
       const currentHour = now.getHours();
 
-      
       if (currentHour >= 5 && currentHour < 12) {
         setGreeting("Good Morning");
       } else if (currentHour >= 12 && currentHour < 18) {
@@ -34,15 +29,13 @@ const Dashboard = () => {
         setGreeting("Good Evening");
       }
 
-      
-      setTime(now.toLocaleTimeString([], {hour: "2-digit", minute:"2-digit"}));
-      setDate(now.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric"}));
+      setTime(now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
+      setDate(now.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }));
     }, 1000);
-    
-    return () => clearInterval(interval); 
+
+    return () => clearInterval(interval);
   }, []);
 
-  
   useEffect(() => {
     let interval = null;
     if (isActive && focusTime > 0) {
@@ -56,31 +49,29 @@ const Dashboard = () => {
     return () => clearInterval(interval);
   }, [isActive, focusTime]);
 
-  
   const addTask = () => {
     if (newTask.trim() !== "") {
       const task = {
         name: newTask,
-        subject: subject,
-        type: taskType,
-        date: taskDate,
-        time: taskTime,
-      }
-      setTasks([...tasks, task]); 
-      setNewTask(""); 
-      setSubject(""); 
-      setTaskType("none"); 
-      setTaskDate(""); 
-      setTaskTime(""); 
+        subject: selectedSubject,
+        type: selectedType,
+        date: selectedDate,
+        time: selectedTime,
+      };
+      setTasks([...tasks, task]);
+      setNewTask("");
+      setSelectedSubject("");
+      setSelectedType("");
+      setSelectedDate("");
+      setSelectedTime("");
+      setActiveButton(null); 
     }
   };
 
-  
   const startTimer = () => {
     setIsActive(true);
   };
 
-  
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
     const seconds = time % 60;
@@ -95,9 +86,23 @@ const Dashboard = () => {
     };
   }, []);
 
+  const handleButtonClick = (buttonName) => {
+    if (activeButton === buttonName) {
+      setActiveButton(null); 
+    } else {
+      setActiveButton(buttonName); 
+    }
+  };
+  const sortTasks = (tasks) => {
+    return tasks.sort((a, b) => {
+      const dateA = new Date(`${a.date}T${a.time}`);
+      const dateB = new Date(`${b.date}T${b.time}`);
+      return dateA - dateB; 
+    });
+  };
+  const sortedTasks = sortTasks(tasks);
   return (
     <div className="dashboard-container">
-      
       <div className="sidebar">
         <img src={logo} alt="logo" className="image-1" />
         <ul className="sidebar-list">
@@ -117,77 +122,103 @@ const Dashboard = () => {
           <div className="user-info">Himansha Dewmin</div>
         </div>
 
-        
         <div className="greeting-bar">
-          <p className="greeting-text">{greeting}!</p> 
+          <p className="greeting-text">{greeting}!</p>
           <p className="dailytask">You have {tasks.length} tasks due today.</p>
         </div>
-        
+
         <div className="two-column-layout">
           <div className="left-column">
             <div className="task-section">
               <div className="task-box">
-                <div className ="input-button-container">
-                  <input type="text" placeholder="Quick add task" value={newTask}onChange={(e) => setNewTask(e.target.value)} />
+                <div className="input-button-container">
+                  <input
+                    type="text"
+                    placeholder="Quick add task"
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
+                  />
                   <button onClick={addTask}>Add</button>
                 </div>
-                
+
                 <div className="task-options-horizontal">
-                  <div className="task-options-container">
-                    <div className="task-options">
-                      <button onClick={() => setShowSubjectDropdown(!showSubjectDropdown)}>Subject</button>
-                      {showSubjectDropdown && (
-                        <div className="dropdown">
-                          <button onClick={() => setSubject("Maths")}>Maths</button>
-                          <button onClick={() => setSubject("Science")}>Science</button>
-                          <button onClick={() => setSubject("History")}>History</button>
-                        </div>
-                      )}
-                    </div>
+                  <div className="task-options">
+                    <button
+                      onClick={() => handleButtonClick("subject")}
+                      style={{
+                        backgroundColor: activeButton === "subject" ? "#2d8984" : "#00ffb3",
+                      }}
+                    >
+                      {selectedSubject || "Subject"}
+                    </button>
+                    {activeButton === "subject" && (
+                      <div className="dropdown">
+                        <button onClick={() => setSelectedSubject("Maths")}>Maths</button>
+                        <button onClick={() => setSelectedSubject("Science")}>Science</button>
+                        <button onClick={() => setSelectedSubject("History")}>History</button>
+                      </div>
+                    )}
+                  </div>
 
-                    <div className="task-options">
-                      <button onClick={() => setShowTypeDropdown(!showTypeDropdown)}>Type</button>
-                      {showTypeDropdown && (
-                        <div className="dropdown">
-                          <button onClick={() => setTaskType("assignment")}>Assignment</button>
-                          <button onClick={() => setTaskType("exam")}>Exam</button>
-                          <button onClick={() => setTaskType("none")}>None</button>
-                        </div>
-                      )}
-                    </div>
+                  <div className="task-options">
+                    <button
+                      onClick={() => handleButtonClick("type")}
+                      style={{
+                        backgroundColor: activeButton === "type" ? "#2d8984" : "#00ffb3",
+                      }}
+                    >
+                      {selectedType || "Type"}
+                    </button>
+                    {activeButton === "type" && (
+                      <div className="dropdown">
+                        <button onClick={() => setSelectedType("Assignment")}>Assignment</button>
+                        <button onClick={() => setSelectedType("Exam")}>Exam</button>
+                        <button onClick={() => setSelectedType("None")}>None</button>
+                      </div>
+                    )}
+                  </div>
 
-                    <div className="task-options">
-                      <button onClick={() => setShowDatePicker(!showDatePicker)}>
-                        Date
-                      </button>
-                      {showDatePicker && (
-                        <input
-                          type="date"
-                          value={taskDate}
-                          onChange={(e) => setTaskDate(e.target.value)}
-                        />
-                      )}
-                    </div>
+                  <div className="task-options">
+                    <button
+                      onClick={() => handleButtonClick("date")}
+                      style={{
+                        backgroundColor: activeButton === "date" ? "#2d8984" : "#00ffb3",
+                      }}
+                    >
+                      {selectedDate || "Date"}
+                    </button>
+                    {activeButton === "date" && (
+                      <input
+                        type="date"
+                        value={selectedDate}
+                        onChange={(e) => setSelectedDate(e.target.value)}
+                      />
+                    )}
+                  </div>
 
-                    <div className="task-options">
-                      <button onClick={() => setShowTimePicker(!showTimePicker)}>
-                        Time
-                      </button>
-                      {showTimePicker && (
-                        <input
-                          type="time"
-                          value={taskTime}
-                          onChange={(e) => setTaskTime(e.target.value)}
-                          />
-                      )}
-                    </div>
+                  <div className="task-options">
+                    <button
+                      onClick={() => handleButtonClick("time")}
+                      style={{
+                        backgroundColor: activeButton === "time" ? "#2d8984" : "#00ffb3",
+                      }}
+                    >
+                      {selectedTime || "Time"}
+                    </button>
+                    {activeButton === "time" && (
+                      <input
+                        type="time"
+                        value={selectedTime}
+                        onChange={(e) => setSelectedTime(e.target.value)}
+                      />
+                    )}
                   </div>
                 </div>
               </div>
 
-              <h3 className="upcoming-tasks-heading"> Upcoming tasks</h3>
+              <h3 className="upcoming-tasks-heading">Works To Do:</h3>
               <div className="task-list">
-                {tasks.map((task, index) => (
+                {sortedTasks.map((task, index) => (
                   <div key={index} className="task-item">
                     <p><strong>Task:</strong> {task.name}</p>
                     <p><strong>Subject:</strong> {task.subject}</p>
@@ -197,19 +228,18 @@ const Dashboard = () => {
                   </div>
                 ))}
               </div>
-              
             </div>
           </div>
 
           <div className="right-column">
             <div className="task-container">
-                <h3>Upcoming Assignments</h3>
-                <p>No upcoming assignments</p>
+              <h3>Upcoming Assignments</h3>
+              <p>No upcoming assignments</p>
             </div>
 
             <div className="task-container">
-                <h3>Upcoming Exams</h3>
-                <p>No upcoming exams</p>
+              <h3>Upcoming Exams</h3>
+              <p>No upcoming exams</p>
             </div>
 
             <div className="focus-timer">

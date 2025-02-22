@@ -2,9 +2,9 @@ import React,{useState} from 'react';
 import '../Pages/css/Signup.css';
 import signupimg from '../component/Assest/Signup image.png'
 import logo from '../component/Assest/Logo.png';
-import { useNavigate } from 'react-router-dom';
 import eyeOpen from '../component/Assest/icons/eye-regular.svg';
 import eyeClosed from '../component/Assest/icons/eye-slash-regular.svg';
+import { useNavigate } from 'react-router-dom';
 
 const Signup = () => {
     const [showPassword, setShowPassword] = useState(false);
@@ -29,22 +29,30 @@ const Signup = () => {
             </div>
             <div className="form-container">
                 <form className="signup-form" onSubmit={handleSignup}>
-                    <h2 className="form-title">Create Your Accout</h2>
-                    <input type="text" placeholder="Username" className="input-field" required/>
-                    <input type="email" placeholder="Email" className="input-field" required/>
+                    <h2 className="form-title">Create Your Account</h2>
+                    <div className="box">
+                      <input className="field" type="text" id="username" required/>
+                      <label for="username">Username</label>
+                    </div>
+                    <div className="box">
+                      <input className="field" type="email" id="email" required/>
+                      <label for="email">Email</label>
+                    </div>
                     <div className="password-container">
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Password"
-                            className="input-field"
-                            required
-                        />
+                        <div className = "box">
+                          <input
+                              type={showPassword ? "text" : "password"}
+                              id="password"
+                              className="field"
+                              required
+                          />
+                          <label for="password">Password</label>
+                        </div>
                         <img
                           src={showPassword ? eyeOpen : eyeClosed}
                           alt={showPassword ? "Hide password" : "Show password"}
                           className="toggle-password-icon"
                           onClick={togglePasswordVisibility}
-                          style={{ cursor: "pointer", width: "24px", marginLeft: "8px" }}
                         />
                     </div>
                     <button type="submit" className="signup-button">Signup</button>

@@ -32,21 +32,25 @@ const Login = () => {
             <div className="form-container">
                 <form action="#" method="post" className="login-form">
                     <h2 className="form-title">LOGIN</h2>
-                    <div class="login box">
-                      <input class="field" type="text" id="login" required/>
-                      <label for="login">Username</label>
+                    <div class="box">
+                      <input class="field" type="text" id="username" required/>
+                      <label for="username">Username</label>
                     </div>
                     <div className="password-container">
-                        <input
-                            type={showPassword ? "text" : "password"} 
-                            className="input-field"
-                        />
+                        <div className = "box">
+                          <input
+                              type={showPassword ? "text" : "password"} 
+                              className="field"
+                              id="password"
+                              required
+                          />
+                          <label for="password">Password</label>
+                        </div>
                         <img
                           src={showPassword ? eyeOpen : eyeClosed}
                           alt={showPassword ? "Hide password" : "Show password"}
                           className="toggle-password-icon"
                           onClick={togglePasswordVisibility}
-                          style={{ cursor: "pointer", width: "24px", marginLeft: "8px" }}
                         />
                     </div>
                     <button type="submit" className="login-button" onClick={BtnClick} >Login</button>

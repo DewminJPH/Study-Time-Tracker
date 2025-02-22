@@ -81,49 +81,53 @@
   align-items: center;
 }
 .form-title {
-  font-size: 1.8rem;
+  font-size: 1.7rem;
   font-weight: 600;
   margin-top: -10px;
   color: #2D8984;
 }
-.input-field {
+.box {
+  position: relative;
   width: 100%;
+  margin-bottom: 20px;
+}
+.field {
+  width: 80%;
   padding: 10px;
   margin-top: 10px;
-  border: 1px solid #ccc;
-  
+  outline: none;
+  border:none;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.364);
+  background: transparent;
+}
+.field:focus ~ label,
+.field:valid ~ label {
+  top: -10px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.784);
+}
+.box label {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  color: rgba(0, 0, 0, 0.458);
+  font-size: 1rem;
+  transition: 0.5s;
+  pointer-events: none;
 }
 
-.signup-button {
-  width: 100%;
-  margin-top:50px;
-  font-size:20px;
-  padding: 10px;
-  background-color: #2D8984;
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.signup-button:hover {
-  background-color: #1A5A5A;
-}
 .password-container {
   display: flex;
   align-items: center;
   position: relative; 
 }
 
-.input-field {
-  flex: 1;
-  padding-right: 40px; 
-}
 
 .toggle-password-icon {
   position: absolute;
   right: 10px; 
-  top: 60%; 
+  top: 50%; 
   transform: translateY(-50%); 
   cursor: pointer;
   width: 17px; 
@@ -134,4 +138,19 @@
 
 .toggle-password-icon:hover {
   opacity: 1; 
+}
+
+.signup-button {
+  width: 90%;
+  margin-top:20px;
+  font-size:20px;
+  padding: 10px;
+  background-color: #2D8984;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.signup-button:hover {
+  background-color: #1A5A5A;
 }
