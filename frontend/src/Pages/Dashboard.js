@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../Pages/css/Dashboard.css";
 import logo from "../component/Assest/Logo.png";
+import { createTask, getTasks, updateTask, deleteTask } from "../services/api";
 
 const Dashboard = () => {
   const [time, setTime] = useState(new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }));
@@ -10,11 +11,30 @@ const Dashboard = () => {
   const [newTask, setNewTask] = useState("");
   const [focusTime, setFocusTime] = useState(1500);
   const [isActive, setIsActive] = useState(false);
-  const [activeButton, setActiveButton] = useState(null); 
-  const [selectedSubject, setSelectedSubject] = useState(""); 
-  const [selectedType, setSelectedType] = useState(""); 
-  const [selectedDate, setSelectedDate] = useState(""); 
-  const [selectedTime, setSelectedTime] = useState(""); 
+  const [activeButton, setActiveButton] = useState(null);
+  const [selectedSubject, setSelectedSubject] = useState("");
+  const [selectedType, setSelectedType] = useState("");
+  const [selectedDate, setSelectedDate] = useState("");
+  const [selectedTime, setSelectedTime] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingTaskId, setEditingTaskId] = useState(null);
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      setLoading(true);
+      try {
+        const tasksFromApi = await getTasks();
+        setTasks(tasksFromApi);
+      } catch (error) {
+        setError("Failed to fetch tasks");
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTasks();
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,7 +69,7 @@ const Dashboard = () => {
     return () => clearInterval(interval);
   }, [isActive, focusTime]);
 
-  const addTask = () => {
+  const addTask = async () => {
     if (newTask.trim() !== "") {
       const task = {
         name: newTask,
@@ -58,14 +78,54 @@ const Dashboard = () => {
         date: selectedDate,
         time: selectedTime,
       };
-      setTasks([...tasks, task]);
-      setNewTask("");
-      setSelectedSubject("");
-      setSelectedType("");
-      setSelectedDate("");
-      setSelectedTime("");
-      setActiveButton(null); 
+
+      try {
+        if (isEditing) {
+          // Update the existing task
+          const updatedTask = await updateTask(editingTaskId, task);
+          setTasks(tasks.map((t) => (t._id === editingTaskId ? updatedTask : t)));
+          setIsEditing(false); // Exit edit mode
+          setEditingTaskId(null); // Clear the editing task ID
+        } else {
+          // Add a new task
+          const addedTask = await createTask(task);
+          setTasks([...tasks, addedTask]);
+        }
+
+        // Reset the form fields
+        setNewTask("");
+        setSelectedSubject("");
+        setSelectedType("");
+        setSelectedDate("");
+        setSelectedTime("");
+        setActiveButton(null);
+      } catch (error) {
+        console.error("Error saving task:", error);
+      }
     }
+  };
+
+  const handleDeleteTask = async (id) => {
+    try {
+      await deleteTask(id);
+      setTasks(tasks.filter((task) => task._id !== id));
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  };
+
+  const handleUpdateClick = (task) => {
+    // Enter edit mode
+    setIsEditing(true); 
+    // Set the ID of the task being edited
+    setEditingTaskId(task._id); 
+
+    // Populate the input fields with the task's current values
+    setNewTask(task.name);
+    setSelectedSubject(task.subject);
+    setSelectedType(task.type);
+    setSelectedDate(task.date);
+    setSelectedTime(task.time);
   };
 
   const startTimer = () => {
@@ -88,19 +148,24 @@ const Dashboard = () => {
 
   const handleButtonClick = (buttonName) => {
     if (activeButton === buttonName) {
-      setActiveButton(null); 
+      setActiveButton(null);
     } else {
-      setActiveButton(buttonName); 
+      setActiveButton(buttonName);
     }
   };
+
   const sortTasks = (tasks) => {
     return tasks.sort((a, b) => {
       const dateA = new Date(`${a.date}T${a.time}`);
       const dateB = new Date(`${b.date}T${b.time}`);
-      return dateA - dateB; 
+      return dateA - dateB;
     });
   };
+
   const sortedTasks = sortTasks(tasks);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
   return (
     <div className="dashboard-container">
       <div className="sidebar">
@@ -138,7 +203,9 @@ const Dashboard = () => {
                     value={newTask}
                     onChange={(e) => setNewTask(e.target.value)}
                   />
-                  <button onClick={addTask}>Add</button>
+                  <button onClick={addTask}>
+                    {isEditing ? "Update" : "Add"}
+                  </button>
                 </div>
 
                 <div className="task-options-horizontal">
@@ -218,13 +285,17 @@ const Dashboard = () => {
 
               <h3 className="upcoming-tasks-heading">Works To Do:</h3>
               <div className="task-list">
-                {sortedTasks.map((task, index) => (
-                  <div key={index} className="task-item">
+                {sortedTasks.map((task) => (
+                  <div key={task._id} className="task-item">
                     <p><strong>Task:</strong> {task.name}</p>
                     <p><strong>Subject:</strong> {task.subject}</p>
                     <p><strong>Type:</strong> {task.type}</p>
                     <p><strong>Date:</strong> {task.date}</p>
                     <p><strong>Time:</strong> {task.time}</p>
+                    <div>
+                      <button onClick={() => handleDeleteTask(task._id)}>Delete</button>
+                      <button onClick={() => handleUpdateClick(task)}>Update</button>
+                    </div>
                   </div>
                 ))}
               </div>

@@ -1,32 +1,26 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const router = require('./router');
-
-const app = express(); 
 const cors = require('cors');
+const authRoutes = require('./src/routes/authRoutes');
+const sessionRoutes = require('./src/routes/sessionRoutes');
+const userRoutes = require('./src/routes/user');
+const taskRoutes = require('./src/routes/task');
 
-const port = 3022;
-const host = 'localhost';
+const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-const uri = 'mongodb+srv://test:123@cluster0.k2uel.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/sessions', sessionRoutes); 
+app.use('/api', userRoutes); // Changed from '/api/users'
+app.use('/api', taskRoutes); // Changed from '/api/tasks'
 
-const connect = async () => {
-    try {
-        await mongoose.connect(uri);
-        console.log('Connected to MongoDB');
-        } 
-    catch (error) {
-        console.log('Error connecting to MongoDB', error);
-        }
-    }; 
+// MongoDB connection
+mongoose.connect('mongodb://127.0.0.1:27017/study-tracker');
 
-connect(); 
-
-const server = app.listen(port, host, () => {
-    console.log(`Node server is listening to ${server.address().port}`)
+const PORT = process.env.PORT || 3002;
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
 });
-
-app.use('/api', router);

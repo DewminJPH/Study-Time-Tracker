@@ -1,42 +1,28 @@
-const express = require('express');
-const app = express();
-const cors = require('cors');
-const controller = require('./controller');
+// const express = require('express');
+// const mongoose = require('mongoose');
+// const cors = require('cors');
+// const authRoutes = require('./routes/authRoutes');
+// const sessionRoutes = require("./routes/sessionRoutes");
+// require('dotenv').config();
 
-app.use(cors());
+// const app = express();
 
-app.use(
-   express.urlencoded({ 
-       extended: true,
-   })
-);   
+// // Middleware
+// app.use(cors({
+//     origin: 'http://localhost:3000', // Frontend port
+//     methods: ["GET", "POST"],
+//     credentials: true
+//   }));
+// app.use(express.json());
 
-app.use(express.json());
+// // Routes
+// app.use('/api/auth', authRoutes);
+// app.use("/api/sessions", sessionRoutes);
 
+// // MongoDB Connection
+// mongoose.connect(process.env.MONGO_URI)
+//   .then(() => console.log('Connected to MongoDB'))
+//   .catch(err => console.error("MongoDB connection error:", err));
 
-
-app.get('/users', (req, res) => {
-    controller.getUsers(req, res, next => {
-        res.send();
-    });
-});
-
-app.post('/createuser', (req, res) => {
-    controller.addUser(req.body, (callback) => {
-        res.send();
-    });
-});
-
-app.post('/updateuser', (req, res) => {
-    controller.updateUser(req.body, (callback) => {
-        res.send(callback);
-    });
-});
-
-app.post('/deleteuser', (req, res) => {
-    controller.deleteUser(req.body, (callback) => {
-        res.send(callback);
-    });
-});
-
-module.exports = app;
+// const PORT = process.env.PORT || 3002;
+// app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
