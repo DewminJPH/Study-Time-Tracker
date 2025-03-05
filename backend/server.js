@@ -15,8 +15,8 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/sessions', sessionRoutes); 
-app.use('/api', userRoutes); // Changed from '/api/users'
-app.use('/api', taskRoutes); // Changed from '/api/tasks'
+app.use('/api', userRoutes);
+app.use('/api', taskRoutes); 
 
 // MongoDB connection
 mongoose.connect('mongodb://127.0.0.1:27017/study-tracker');

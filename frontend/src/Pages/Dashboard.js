@@ -20,6 +20,7 @@ const Dashboard = () => {
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [editingTaskId, setEditingTaskId] = useState(null);
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -69,6 +70,13 @@ const Dashboard = () => {
     return () => clearInterval(interval);
   }, [isActive, focusTime]);
 
+  useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    if (storedUsername) {
+      setUsername(storedUsername);
+    }
+  }, []);
+
   const addTask = async () => {
     if (newTask.trim() !== "") {
       const task = {
@@ -81,18 +89,18 @@ const Dashboard = () => {
 
       try {
         if (isEditing) {
-          // Update the existing task
+          
           const updatedTask = await updateTask(editingTaskId, task);
           setTasks(tasks.map((t) => (t._id === editingTaskId ? updatedTask : t)));
-          setIsEditing(false); // Exit edit mode
-          setEditingTaskId(null); // Clear the editing task ID
+          setIsEditing(false); 
+          setEditingTaskId(null); 
         } else {
-          // Add a new task
+         
           const addedTask = await createTask(task);
           setTasks([...tasks, addedTask]);
         }
 
-        // Reset the form fields
+        
         setNewTask("");
         setSelectedSubject("");
         setSelectedType("");
@@ -115,12 +123,12 @@ const Dashboard = () => {
   };
 
   const handleUpdateClick = (task) => {
-    // Enter edit mode
+    
     setIsEditing(true); 
-    // Set the ID of the task being edited
+    
     setEditingTaskId(task._id); 
 
-    // Populate the input fields with the task's current values
+    
     setNewTask(task.name);
     setSelectedSubject(task.subject);
     setSelectedType(task.type);
@@ -184,7 +192,7 @@ const Dashboard = () => {
             <div className="time">{time}</div>
             <div className="date">{date}</div>
           </div>
-          <div className="user-info">Himansha Dewmin</div>
+          <div className="user-info">{username}</div>
         </div>
 
         <div className="greeting-bar">
@@ -287,15 +295,23 @@ const Dashboard = () => {
               <div className="task-list">
                 {sortedTasks.map((task) => (
                   <div key={task._id} className="task-item">
-                    <p><strong>Task:</strong> {task.name}</p>
-                    <p><strong>Subject:</strong> {task.subject}</p>
-                    <p><strong>Type:</strong> {task.type}</p>
-                    <p><strong>Date:</strong> {task.date}</p>
-                    <p><strong>Time:</strong> {task.time}</p>
-                    <div>
-                      <button onClick={() => handleDeleteTask(task._id)}>Delete</button>
-                      <button onClick={() => handleUpdateClick(task)}>Update</button>
+                      <div className="task-details">
+                        <p><strong>Task:</strong> {task.name}</p>
+                        <p><strong>Subject:</strong> {task.subject}</p>
+                        <p><strong>Type:</strong> {task.type}</p>
+                        <p><strong>Date:</strong> {task.date}</p>
+                        <p><strong>Time:</strong> {task.time}</p>
+                      </div>
+                      <div className="task-buttons">
+                      <button className="update-button" onClick={() => handleUpdateClick(task)}>
+                        Update
+                      </button>
+                      <button className="delete-button" onClick={() => handleDeleteTask(task._id)}>
+                        Delete
+                      </button>
                     </div>
+                    <div>
+                  </div>
                   </div>
                 ))}
               </div>
