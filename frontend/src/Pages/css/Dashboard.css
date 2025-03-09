@@ -3,6 +3,11 @@
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   min-height: 100vh;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
 }
 
 .sidebar {
@@ -13,6 +18,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 200px;
+  max-width: 250px;
 }
 
 .sidebar img {
@@ -48,6 +55,8 @@
   padding: 20px;
   background-color: #f6f6f6;
   margin-left: 20px;
+  max-width: calc(100vw - 250px);
+  overflow-x: hidden;
 }
 
 .top-bar {
@@ -59,6 +68,8 @@
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: -20px -20px 0 -20px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .time-date {
@@ -101,14 +112,19 @@
   display: flex;
   gap: 20px;
   margin-bottom: 20px;
+  width: 100%;
+  flex-wrap: wrap;
 }
 
 .left-column {
-  flex: 2;
+  flex: 1;
+  min-width: 300px;
+  max-width: 100%;
 }
 
 .right-column {
-  flex: 1;
+  flex: 0 0 300px;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -127,6 +143,8 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   margin-bottom: 20px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .input-button-container {
@@ -280,6 +298,8 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   height: 150px;
+  width: 100%;
+  max-width: 100%;
 }
 
 .task-container h3 {
@@ -299,6 +319,8 @@
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
+  width: 100%;
+  max-width: 100%;
 }
 
 .focus-timer h3 {
@@ -329,4 +351,61 @@
 .focus-timer button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
+}
+
+@media screen and (max-width: 1024px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    min-width: 100%;
+    max-width: 100%;
+    height: auto;
+  }
+
+  .main-content {
+    max-width: 100vw;
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  .task-box {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .two-column-layout {
+    flex-direction: column;
+  }
+
+  .left-column,
+  .right-column {
+    width: 100%;
+    flex: 1;
+    max-width: 100%;
+  }
+}
+
+.task-box {
+  width: 100%;
+  max-width: 100%;
+}
+
+.task-container {
+  width: 100%;
+  max-width: 100%;
+}
+
+.focus-timer {
+  width: 100%;
+  max-width: 100%;
+}
+
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #2D8984;
+  margin-bottom: 20px;
+  /* Remove any animation-related properties */
 }

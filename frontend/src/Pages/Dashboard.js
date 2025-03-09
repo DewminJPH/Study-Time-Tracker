@@ -77,38 +77,44 @@ const Dashboard = () => {
     }
   }, []);
 
+  const fetchTasks = async () => {
+    try {
+      const response = await getTasks();
+      setTasks(response);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
+
   const addTask = async () => {
     if (newTask.trim() !== "") {
-      const task = {
-        name: newTask,
-        subject: selectedSubject,
-        type: selectedType,
-        date: selectedDate,
-        time: selectedTime,
-      };
-
       try {
-        if (isEditing) {
-          
-          const updatedTask = await updateTask(editingTaskId, task);
-          setTasks(tasks.map((t) => (t._id === editingTaskId ? updatedTask : t)));
-          setIsEditing(false); 
-          setEditingTaskId(null); 
-        } else {
-         
-          const addedTask = await createTask(task);
-          setTasks([...tasks, addedTask]);
-        }
+        const task = {
+          name: newTask,
+          subject: selectedSubject,
+          type: selectedType,
+          date: selectedDate,
+          time: selectedTime,
+        };
 
+        const response = await createTask(task);
         
+        // Update local state with the new task
+        setTasks(prevTasks => [...prevTasks, response]);
+        
+        // Reset form fields
         setNewTask("");
         setSelectedSubject("");
         setSelectedType("");
         setSelectedDate("");
         setSelectedTime("");
         setActiveButton(null);
+        
+        // Fetch updated tasks list
+        await fetchTasks();
+        
       } catch (error) {
-        console.error("Error saving task:", error);
+        console.error("Error adding task:", error);
       }
     }
   };
@@ -117,23 +123,55 @@ const Dashboard = () => {
     try {
       await deleteTask(id);
       setTasks(tasks.filter((task) => task._id !== id));
+      // Fetch updated tasks list
+      await fetchTasks();
     } catch (error) {
       console.error("Error deleting task:", error);
     }
   };
 
   const handleUpdateClick = (task) => {
-    
-    setIsEditing(true); 
-    
-    setEditingTaskId(task._id); 
-
-    
     setNewTask(task.name);
     setSelectedSubject(task.subject);
     setSelectedType(task.type);
     setSelectedDate(task.date);
     setSelectedTime(task.time);
+    setEditingTaskId(task._id);
+    setIsEditing(true);
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const updatedTask = {
+        name: newTask,
+        subject: selectedSubject,
+        type: selectedType,
+        date: selectedDate,
+        time: selectedTime,
+      };
+
+      const response = await updateTask(editingTaskId, updatedTask);
+      
+      // Update tasks list with the updated task
+      setTasks(prevTasks => 
+        prevTasks.map(task => 
+          task._id === editingTaskId ? response : task
+        )
+      );
+
+      // Reset form
+      setNewTask("");
+      setSelectedSubject("");
+      setSelectedType("");
+      setSelectedDate("");
+      setSelectedTime("");
+      setEditingTaskId(null);
+      setIsEditing(false);
+      setActiveButton(null);
+
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
   };
 
   const startTimer = () => {
@@ -172,6 +210,15 @@ const Dashboard = () => {
 
   const sortedTasks = sortTasks(tasks);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (editingTaskId) {
+      handleUpdate();
+    } else {
+      addTask();
+    }
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   return (
@@ -204,91 +251,93 @@ const Dashboard = () => {
           <div className="left-column">
             <div className="task-section">
               <div className="task-box">
-                <div className="input-button-container">
-                  <input
-                    type="text"
-                    placeholder="Quick add task"
-                    value={newTask}
-                    onChange={(e) => setNewTask(e.target.value)}
-                  />
-                  <button onClick={addTask}>
-                    {isEditing ? "Update" : "Add"}
-                  </button>
-                </div>
-
-                <div className="task-options-horizontal">
-                  <div className="task-options">
-                    <button
-                      onClick={() => handleButtonClick("subject")}
-                      style={{
-                        backgroundColor: activeButton === "subject" ? "#2d8984" : "#00ffb3",
-                      }}
-                    >
-                      {selectedSubject || "Subject"}
+                <form onSubmit={handleSubmit} className="task-form">
+                  <div className="input-button-container">
+                    <input
+                      type="text"
+                      placeholder="Quick add task"
+                      value={newTask}
+                      onChange={(e) => setNewTask(e.target.value)}
+                    />
+                    <button type="submit">
+                      {isEditing ? "Update" : "Add"}
                     </button>
-                    {activeButton === "subject" && (
-                      <div className="dropdown">
-                        <button onClick={() => setSelectedSubject("Maths")}>Maths</button>
-                        <button onClick={() => setSelectedSubject("Science")}>Science</button>
-                        <button onClick={() => setSelectedSubject("History")}>History</button>
-                      </div>
-                    )}
                   </div>
 
-                  <div className="task-options">
-                    <button
-                      onClick={() => handleButtonClick("type")}
-                      style={{
-                        backgroundColor: activeButton === "type" ? "#2d8984" : "#00ffb3",
-                      }}
-                    >
-                      {selectedType || "Type"}
-                    </button>
-                    {activeButton === "type" && (
-                      <div className="dropdown">
-                        <button onClick={() => setSelectedType("Assignment")}>Assignment</button>
-                        <button onClick={() => setSelectedType("Exam")}>Exam</button>
-                        <button onClick={() => setSelectedType("None")}>None</button>
-                      </div>
-                    )}
-                  </div>
+                  <div className="task-options-horizontal">
+                    <div className="task-options">
+                      <button
+                        onClick={() => handleButtonClick("subject")}
+                        style={{
+                          backgroundColor: activeButton === "subject" ? "#2d8984" : "#00ffb3",
+                        }}
+                      >
+                        {selectedSubject || "Subject"}
+                      </button>
+                      {activeButton === "subject" && (
+                        <div className="dropdown">
+                          <button onClick={() => setSelectedSubject("GUI")}>GUI</button>
+                          <button onClick={() => setSelectedSubject("DSA")}>DSA</button>
+                          <button onClick={() => setSelectedSubject("Analog")}>Analog</button>
+                        </div>
+                      )}
+                    </div>
 
-                  <div className="task-options">
-                    <button
-                      onClick={() => handleButtonClick("date")}
-                      style={{
-                        backgroundColor: activeButton === "date" ? "#2d8984" : "#00ffb3",
-                      }}
-                    >
-                      {selectedDate || "Date"}
-                    </button>
-                    {activeButton === "date" && (
-                      <input
-                        type="date"
-                        value={selectedDate}
-                        onChange={(e) => setSelectedDate(e.target.value)}
-                      />
-                    )}
-                  </div>
+                    <div className="task-options">
+                      <button
+                        onClick={() => handleButtonClick("type")}
+                        style={{
+                          backgroundColor: activeButton === "type" ? "#2d8984" : "#00ffb3",
+                        }}
+                      >
+                        {selectedType || "Type"}
+                      </button>
+                      {activeButton === "type" && (
+                        <div className="dropdown">
+                          <button onClick={() => setSelectedType("Assignment")}>Assignment</button>
+                          <button onClick={() => setSelectedType("Exam")}>Exam</button>
+                          <button onClick={() => setSelectedType("None")}>None</button>
+                        </div>
+                      )}
+                    </div>
 
-                  <div className="task-options">
-                    <button
-                      onClick={() => handleButtonClick("time")}
-                      style={{
-                        backgroundColor: activeButton === "time" ? "#2d8984" : "#00ffb3",
-                      }}
-                    >
-                      {selectedTime || "Time"}
-                    </button>
-                    {activeButton === "time" && (
-                      <input
-                        type="time"
-                        value={selectedTime}
-                        onChange={(e) => setSelectedTime(e.target.value)}
-                      />
-                    )}
+                    <div className="task-options">
+                      <button
+                        onClick={() => handleButtonClick("date")}
+                        style={{
+                          backgroundColor: activeButton === "date" ? "#2d8984" : "#00ffb3",
+                        }}
+                      >
+                        {selectedDate || "Date"}
+                      </button>
+                      {activeButton === "date" && (
+                        <input
+                          type="date"
+                          value={selectedDate}
+                          onChange={(e) => setSelectedDate(e.target.value)}
+                        />
+                      )}
+                    </div>
+
+                    <div className="task-options">
+                      <button
+                        onClick={() => handleButtonClick("time")}
+                        style={{
+                          backgroundColor: activeButton === "time" ? "#2d8984" : "#00ffb3",
+                        }}
+                      >
+                        {selectedTime || "Time"}
+                      </button>
+                      {activeButton === "time" && (
+                        <input
+                          type="time"
+                          value={selectedTime}
+                          onChange={(e) => setSelectedTime(e.target.value)}
+                        />
+                      )}
+                    </div>
                   </div>
-                </div>
+                </form>
               </div>
 
               <h3 className="upcoming-tasks-heading">Works To Do:</h3>
